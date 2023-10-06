@@ -1,4 +1,5 @@
 import yaml
+import os
 
 class TranslationConfig:
     _instance = None
@@ -10,6 +11,10 @@ class TranslationConfig:
         return cls._instance
     
     def initialize(self, args):
+        if not os.path.exists(args.config_file):
+            project_root = os.path.dirname(os.path.abspath(__file__))
+            args.config_file = os.path.join(project_root, args.config_file)
+
         with open(args.config_file, "r") as f:
             config = yaml.safe_load(f)
 
